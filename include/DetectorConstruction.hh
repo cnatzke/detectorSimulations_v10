@@ -48,7 +48,7 @@ class G4LogicalVolume;
 class G4VPhysicalVolume;
 class G4Material;
 class DetectorMessenger;
-//class DetectionSystemGammaTracking;
+// class DetectionSystemGammaTracking;
 class DetectionSystemGriffin;
 class DetectionSystem8pi;
 
@@ -68,11 +68,12 @@ class DetectionSystemLanthanumBromide;
 class DetectionSystemBox;
 class DetectionSystemAncillaryBGO;
 
-//class MagneticField;
+// class MagneticField;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-struct DetectorProperties {
+struct DetectorProperties
+{
 	G4int systemID;
 	G4int detectorNumber;
 	G4int crystalNumber;
@@ -84,7 +85,7 @@ struct DetectorProperties {
 	}
 };
 
-bool operator==(const DetectorProperties& lhs, const DetectorProperties& rhs);
+bool operator==(const DetectorProperties &lhs, const DetectorProperties &rhs);
 
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
@@ -92,20 +93,25 @@ public:
 	DetectorConstruction();
 	~DetectorConstruction();
 
-	G4int GriffinDetectorsMap(G4int i) { if(i < 0 || i > 15) return -1; return fGriffinDetectorsMap[i]; }
+	G4int GriffinDetectorsMap(G4int i)
+	{
+		if (i < 0 || i > 15)
+			return -1;
+		return fGriffinDetectorsMap[i];
+	}
 
-	void PassEfficiencyPosition( G4ThreeVector num ) {fDetEffPosition = num;}
+	void PassEfficiencyPosition(G4ThreeVector num) { fDetEffPosition = num; }
 
-	void SetWorldMaterial( G4String );
-	void SetWorldDimensions( G4ThreeVector );
-	void SetWorldVis( G4bool );
-	void SetWorldStepLimit( G4double );
+	void SetWorldMaterial(G4String);
+	void SetWorldDimensions(G4ThreeVector);
+	void SetWorldVis(G4bool);
+	void SetWorldStepLimit(G4double);
 
-	//Generic Target
-	void SetGenericTargetMaterial( G4String );
-	void SetGenericTargetDimensions( G4ThreeVector );
-	void SetGenericTargetPosition( G4ThreeVector );
-	void SetGenericTarget( );
+	// Generic Target
+	void SetGenericTargetMaterial(G4String);
+	void SetGenericTargetDimensions(G4ThreeVector);
+	void SetGenericTargetPosition(G4ThreeVector);
+	void SetGenericTarget();
 
 	G4double LayeredTargetLayerStart(int);
 
@@ -113,25 +119,28 @@ public:
 
 	void SetTabMagneticField(G4String, G4double, G4double);
 	// Grid Functions
-	void SetGridMat( G4String input )                  {fGridMat = input;};
-	void SetGridSize( G4double input )                 {fGridSize = input;};
-	void SetGridDimensions( G4ThreeVector input )      {fGridDimensions = input;};
-	void SetGridColour( G4ThreeVector input )          {fGridColour = input;};
-	void SetGridPosOffset( G4ThreeVector input )          {fGridOffset = input;};
+	void SetGridMat(G4String input) { fGridMat = input; };
+	void SetGridSize(G4double input) { fGridSize = input; };
+	void SetGridDimensions(G4ThreeVector input) { fGridDimensions = input; };
+	void SetGridColour(G4ThreeVector input) { fGridColour = input; };
+	void SetGridPosOffset(G4ThreeVector input) { fGridOffset = input; };
 	void AddGrid();
 	void AddApparatusSpiceTargetChamber(G4String);
 	void AddApparatus8piVacuumChamber();
 	void AddApparatus8piVacuumChamberAuxMatShell(G4double thickness);
 	void AddApparatusGriffinStructure(G4int selector);
+	void AddApparatusPEEKSourceHolder(G4int position);
 
-	G4double GetWorldSizeX()           {return fWorldSizeX;};
-	G4double GetWorldSizeY()           {return fWorldSizeY;};
-	G4double GetWorldSizeZ()           {return fWorldSizeZ;};
+	G4double GetWorldSizeX()
+	{
+		return fWorldSizeX;
+	};
+	G4double GetWorldSizeY() { return fWorldSizeY; };
+	G4double GetWorldSizeZ() { return fWorldSizeZ; };
 
+	const G4VPhysicalVolume *GetphysiWorld() { return fPhysiWorld; };
 
-	const G4VPhysicalVolume* GetphysiWorld() {return fPhysiWorld;};
-
-	G4VPhysicalVolume* Construct();
+	G4VPhysicalVolume *Construct();
 
 	void UpdateGeometry();
 
@@ -159,11 +168,11 @@ public:
 	void AddDetectionSystemGriffinForwardDetector(G4int ndet);
 	void AddDetectionSystemGriffinBack(G4int ndet);
 	void AddDetectionSystemGriffinBackDetector(G4int ndet);
-	//void AddDetectionSystemGriffinPositionConfig(G4ThreeVector input);
+	// void AddDetectionSystemGriffinPositionConfig(G4ThreeVector input);
 	void AddDetectionSystemGriffinHevimet(G4int input);
 	void AddDetectionSystemGriffinCustom(G4int ndet);
-	void AddDetectionSystemGriffinCustomDetector(G4int ndet  = 0);
-	void AddDetectionSystemGriffinShieldSelect(G4int ShieldSelect );
+	void AddDetectionSystemGriffinCustomDetector(G4int ndet = 0);
+	void AddDetectionSystemGriffinShieldSelect(G4int ShieldSelect);
 	void AddDetectionSystemGriffinSetRadialDistance(G4double detectorDist);
 	void AddDetectionSystemGriffinSetExtensionSuppLocation(G4int detectorPos);
 	void AddDetectionSystemGriffinSetPosition(G4ThreeVector params);
@@ -184,97 +193,97 @@ public:
 	G4double GetLanthanumBromideRoll(G4int i);
 	G4double GetLanthanumBromideCrystalRadialPosition();
 
-	G4bool   GridCell()   { return fGridCell;   }
-	G4bool   Griffin()    { return fGriffin;    }
-	G4bool   LaBr()       { return fLaBr;       }
-	G4bool   AncBgo()     { return fAncBgo;     }
-	G4bool   NaI()        { return fNaI;        }
-	G4bool   Sceptar()    { return fSceptar;    }
-	G4bool   EightPi()    { return fEightPi;    }
-	G4bool   Spice()      { return fSpice;      }
-	G4bool   Paces()      { return fPaces;      }
-	G4bool   Descant()    { return fDescant;    }
-	G4bool   Testcan()    { return fTestcan;    }
+	G4bool GridCell() { return fGridCell; }
+	G4bool Griffin() { return fGriffin; }
+	G4bool LaBr() { return fLaBr; }
+	G4bool AncBgo() { return fAncBgo; }
+	G4bool NaI() { return fNaI; }
+	G4bool Sceptar() { return fSceptar; }
+	G4bool EightPi() { return fEightPi; }
+	G4bool Spice() { return fSpice; }
+	G4bool Paces() { return fPaces; }
+	G4bool Descant() { return fDescant; }
+	G4bool Testcan() { return fTestcan; }
 
 	void UseTIGRESSPositions(G4bool input) { fUseTigressPositions = input; }
 
-	bool HasProperties(G4VPhysicalVolume* vol) { return fPropertiesMap.find(vol) != fPropertiesMap.end(); }
-	DetectorProperties GetProperties(G4VPhysicalVolume* vol) { return fPropertiesMap.at(vol); }
+	bool HasProperties(G4VPhysicalVolume *vol) { return fPropertiesMap.find(vol) != fPropertiesMap.end(); }
+	DetectorProperties GetProperties(G4VPhysicalVolume *vol) { return fPropertiesMap.at(vol); }
 	void SetProperties();
-	void SetPropertiesRecursive(G4LogicalVolume* vol);
+	void SetPropertiesRecursive(G4LogicalVolume *vol);
 
 	void Print();
-	void PrintRecursive(G4LogicalVolume* vol);
-    
-    G4double  fTrifWindowThickness;
-    G4double  fTrifDegraderThickness;
-    G4String  fTrifDegraderMat; 
-    G4bool    fTrifAluminised;  
-    G4bool    fTrifFlatWindow;   
+	void PrintRecursive(G4LogicalVolume *vol);
+
+	G4double fTrifWindowThickness;
+	G4double fTrifDegraderThickness;
+	G4String fTrifDegraderMat;
+	G4bool fTrifAluminised;
+	G4bool fTrifFlatWindow;
 
 private:
 	bool CheckVolumeName(G4String volumeName);
 	DetectorProperties ParseVolumeName(G4String volumeName);
 
-	G4int     fGriffinDetectorsMapIndex;
-	G4int     fGriffinDetectorsMap[16];
+	G4int fGriffinDetectorsMapIndex;
+	G4int fGriffinDetectorsMap[16];
 
-	G4double  fWorldSizeX;
-	G4double  fWorldSizeY;
-	G4double  fWorldSizeZ;
-	G4bool    fWorldVis;
-	G4bool    fBuiltDetectors;
-	G4double  fGriffinFwdBackPosition;
-	G4int     fDetectorShieldSelect ;
-	G4double  fDetectorRadialDistance ;
-	G4int     fExtensionSuppressorLocation ;
-	G4int     fCustomDetectorNumber ;
-	G4int     fCustomDetectorPosition ;
-	G4int     fCustomDetectorVal ;
-	G4int     fHevimetSelector ;
-	G4bool    fUseTigressPositions;
+	G4double fWorldSizeX;
+	G4double fWorldSizeY;
+	G4double fWorldSizeZ;
+	G4bool fWorldVis;
+	G4bool fBuiltDetectors;
+	G4double fGriffinFwdBackPosition;
+	G4int fDetectorShieldSelect;
+	G4double fDetectorRadialDistance;
+	G4int fExtensionSuppressorLocation;
+	G4int fCustomDetectorNumber;
+	G4int fCustomDetectorPosition;
+	G4int fCustomDetectorVal;
+	G4int fHevimetSelector;
+	G4bool fUseTigressPositions;
 
 	// Box
-	G4String           fBoxMat;
-	G4double           fBoxThickness;
-	G4ThreeVector      fBoxInnerDimensions;
-	G4ThreeVector      fBoxColour;
+	G4String fBoxMat;
+	G4double fBoxThickness;
+	G4ThreeVector fBoxInnerDimensions;
+	G4ThreeVector fBoxColour;
 
-	G4Box*             fSolidWorld;    //pointer to the solid World
-	G4LogicalVolume*   fLogicWorld;    //pointer to the logical World
-	G4VPhysicalVolume* fPhysiWorld;    //pointer to the physical World
+	G4Box *fSolidWorld;				// pointer to the solid World
+	G4LogicalVolume *fLogicWorld;	// pointer to the logical World
+	G4VPhysicalVolume *fPhysiWorld; // pointer to the physical World
 
 	// Grid
-	G4String           fGridMat;
-	G4double           fGridSize;
-	G4ThreeVector      fGridDimensions;
-	G4ThreeVector      fGridColour;
-	G4ThreeVector      fGridOffset;
+	G4String fGridMat;
+	G4double fGridSize;
+	G4ThreeVector fGridDimensions;
+	G4ThreeVector fGridColour;
+	G4ThreeVector fGridOffset;
 
 	void DefineSuppressedParameters();
 	void DefineMaterials();
 
-	G4double      fCoords[20][5];
-	G4bool        fSetGenericTargetMaterial;
-	G4bool        fSetGenericTargetDimensions;
-	G4bool        fSetGenericTargetPosition;
-	G4String      fGenericTargetMaterial;
+	G4double fCoords[20][5];
+	G4bool fSetGenericTargetMaterial;
+	G4bool fSetGenericTargetDimensions;
+	G4bool fSetGenericTargetPosition;
+	G4String fGenericTargetMaterial;
 	G4ThreeVector fGenericTargetDimensions;
 	G4ThreeVector fGenericTargetPosition;
 
-	G4bool        fSetFieldBoxMaterial;
-	G4bool        fSetFieldBoxDimensions;
-	G4bool        fSetFieldBoxPosition;
-	G4bool        fSetFieldBoxMagneticField;
-	G4String      fFieldBoxMaterial;
+	G4bool fSetFieldBoxMaterial;
+	G4bool fSetFieldBoxDimensions;
+	G4bool fSetFieldBoxPosition;
+	G4bool fSetFieldBoxMagneticField;
+	G4String fFieldBoxMaterial;
 	G4ThreeVector fFieldBoxDimensions;
 	G4ThreeVector fFieldBoxPosition;
 	G4ThreeVector fFieldBoxMagneticField;
 
 	G4String fMatWorldName;
 
-	ApparatusLayeredTarget* fApparatusLayeredTarget;
-	DetectorMessenger* fDetectorMessenger;
+	ApparatusLayeredTarget *fApparatusLayeredTarget;
+	DetectorMessenger *fDetectorMessenger;
 
 	G4double fGriffinDeadLayer[16][4];
 
@@ -283,7 +292,7 @@ private:
 
 	G4ThreeVector fDetEffPosition;
 
-	//booleans which control which histograms are created (these are set by the detector construction)
+	// booleans which control which histograms are created (these are set by the detector construction)
 	G4bool fGridCell;
 	G4bool fGriffin;
 	G4bool fLaBr;
@@ -296,11 +305,9 @@ private:
 	G4bool fSpice;
 	G4bool fPaces;
 
-	//unordered maps which hold properties of the physical volumes created
-	std::unordered_map<G4VPhysicalVolume*, DetectorProperties> fPropertiesMap;
+	// unordered maps which hold properties of the physical volumes created
+	std::unordered_map<G4VPhysicalVolume *, DetectorProperties> fPropertiesMap;
 };
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
-

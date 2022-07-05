@@ -50,8 +50,8 @@
 #include <string>
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
-:fDetector(Det)
+DetectorMessenger::DetectorMessenger(DetectorConstruction *Det)
+	: fDetector(Det)
 {
 	fDetSysDir = new G4UIdirectory("/DetSys/");
 	fDetSysDir->SetGuidance("UI commands of this example");
@@ -65,199 +65,203 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
 	fWorldDir = new G4UIdirectory("/DetSys/world/");
 	fWorldDir->SetGuidance("world control");
 
-	fWorldMaterialCmd = new G4UIcmdWithAString("/DetSys/world/material",this);
+	fWorldMaterialCmd = new G4UIcmdWithAString("/DetSys/world/material", this);
 	fWorldMaterialCmd->SetGuidance("Select material for the world.");
-	fWorldMaterialCmd->SetParameterName("choice",false);
-	fWorldMaterialCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fWorldMaterialCmd->SetParameterName("choice", false);
+	fWorldMaterialCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fWorldDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/world/dimensions",this);
+	fWorldDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/world/dimensions", this);
 	fWorldDimensionsCmd->SetGuidance("Set world dimensions - x y z unit.");
 	fWorldDimensionsCmd->SetUnitCategory("Length");
-	fWorldDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fWorldDimensionsCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fWorldVisCmd = new G4UIcmdWithABool("/DetSys/world/vis",this);
+	fWorldVisCmd = new G4UIcmdWithABool("/DetSys/world/vis", this);
 	fWorldVisCmd->SetGuidance("Set the visulization of the world");
-	fWorldVisCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fWorldVisCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fWorldMagneticFieldCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/world/magneticField",this);
+	fWorldMagneticFieldCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/world/magneticField", this);
 	fWorldMagneticFieldCmd->SetGuidance("Set world magnetic field - x y z unit.");
 	fWorldMagneticFieldCmd->SetUnitCategory("Magnetic flux density");
-	fWorldMagneticFieldCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fWorldMagneticFieldCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fWorldStepLimit = new G4UIcmdWithADoubleAndUnit("/DetSys/world/StepLimit",this);
+	fWorldStepLimit = new G4UIcmdWithADoubleAndUnit("/DetSys/world/StepLimit", this);
 	fWorldStepLimit->SetGuidance("Set user step limit for the world volume.");
 	fWorldStepLimit->SetUnitCategory("Length");
-	fWorldStepLimit->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fWorldStepLimit->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fGenericTargetCmd = new G4UIcmdWithAString("/DetSys/app/genericTarget",this);
+	fGenericTargetCmd = new G4UIcmdWithAString("/DetSys/app/genericTarget", this);
 	fGenericTargetCmd->SetGuidance("Select material of the target.");
-	fGenericTargetCmd->SetParameterName("choice",false);
-	fGenericTargetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fGenericTargetCmd->SetParameterName("choice", false);
+	fGenericTargetCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fGenericTargetDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/genericTargetDimensions",this);
+	fGenericTargetDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/genericTargetDimensions", this);
 	fGenericTargetDimensionsCmd->SetGuidance("Set target dimensions - x y z unit.");
 	fGenericTargetDimensionsCmd->SetUnitCategory("Length");
-	fGenericTargetDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fGenericTargetDimensionsCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fGenericTargetPositionCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/genericTargetPosition",this);
+	fGenericTargetPositionCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/genericTargetPosition", this);
 	fGenericTargetPositionCmd->SetGuidance("Set target position - x y z unit.");
 	fGenericTargetPositionCmd->SetUnitCategory("Length");
-	fGenericTargetPositionCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fGenericTargetPositionCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fLayeredTargetAddCmd = new G4UIcmdWithAString("/DetSys/app/LayeredTargetAddLayer",this);
+	fLayeredTargetAddCmd = new G4UIcmdWithAString("/DetSys/app/LayeredTargetAddLayer", this);
 	fLayeredTargetAddCmd->SetGuidance("Add layer to target - material mg/cm3 mg/cm2.");
-	fLayeredTargetAddCmd->AvailableForStates(G4State_PreInit,G4State_Idle);   
+	fLayeredTargetAddCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fFieldBoxMaterialCmd = new G4UIcmdWithAString("/DetSys/app/fieldBoxMaterial",this);
+	fFieldBoxMaterialCmd = new G4UIcmdWithAString("/DetSys/app/fieldBoxMaterial", this);
 	fFieldBoxMaterialCmd->SetGuidance("Select material of the target.");
-	fFieldBoxMaterialCmd->SetParameterName("choice",false);
-	fFieldBoxMaterialCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fFieldBoxMaterialCmd->SetParameterName("choice", false);
+	fFieldBoxMaterialCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fFieldBoxDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/fieldBoxDimensions",this);
+	fFieldBoxDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/fieldBoxDimensions", this);
 	fFieldBoxDimensionsCmd->SetGuidance("Set target dimensions - x y z unit.");
 	fFieldBoxDimensionsCmd->SetUnitCategory("Length");
-	fFieldBoxDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fFieldBoxDimensionsCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fFieldBoxPositionCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/fieldBoxPosition",this);
+	fFieldBoxPositionCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/fieldBoxPosition", this);
 	fFieldBoxPositionCmd->SetGuidance("Set target position - x y z unit.");
 	fFieldBoxPositionCmd->SetUnitCategory("Length");
-	fFieldBoxPositionCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fFieldBoxPositionCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fFieldBoxMagneticFieldCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/fieldBoxMagneticField",this);
+	fFieldBoxMagneticFieldCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/fieldBoxMagneticField", this);
 	fFieldBoxMagneticFieldCmd->SetGuidance("Set magnetic field - x y z unit.");
 	fFieldBoxMagneticFieldCmd->SetUnitCategory("Magnetic flux density");
-	fFieldBoxMagneticFieldCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fFieldBoxMagneticFieldCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fTabMagneticFieldCmd = new G4UIcmdWithAString("/DetSys/world/TabMagneticField",this); ///19/7
+	fTabMagneticFieldCmd = new G4UIcmdWithAString("/DetSys/world/TabMagneticField", this); /// 19/7
 	fTabMagneticFieldCmd->SetGuidance("Set tabulated magnetic field.");
-	fTabMagneticFieldCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fTabMagneticFieldCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
 	// Box Stuff
-	fAddBoxMatCmd = new G4UIcmdWithAString("/DetSys/det/boxMat",this);
+	fAddBoxMatCmd = new G4UIcmdWithAString("/DetSys/det/boxMat", this);
 	fAddBoxMatCmd->SetGuidance("Set box material.");
-	fAddBoxMatCmd->SetParameterName("choice",false);
-	fAddBoxMatCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddBoxMatCmd->SetParameterName("choice", false);
+	fAddBoxMatCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddBoxThicknessCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/boxThickness",this);
+	fAddBoxThicknessCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/boxThickness", this);
 	fAddBoxThicknessCmd->SetGuidance("Set box thickness.");
 	fAddBoxThicknessCmd->SetUnitCategory("Length");
-	fAddBoxThicknessCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddBoxThicknessCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddBoxInnerDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/boxInnerDimensions",this);
+	fAddBoxInnerDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/boxInnerDimensions", this);
 	fAddBoxInnerDimensionsCmd->SetGuidance("Set box inner dimensions.");
 	fAddBoxInnerDimensionsCmd->SetUnitCategory("Length");
-	fAddBoxInnerDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddBoxInnerDimensionsCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddBoxColourCmd = new G4UIcmdWith3Vector("/DetSys/det/boxColour",this);
+	fAddBoxColourCmd = new G4UIcmdWith3Vector("/DetSys/det/boxColour", this);
 	fAddBoxColourCmd->SetGuidance("Set box colour.");
-	fAddBoxColourCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddBoxColourCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddBoxCmd = new G4UIcmdWithoutParameter("/DetSys/det/addBox",this);
+	fAddBoxCmd = new G4UIcmdWithoutParameter("/DetSys/det/addBox", this);
 	fAddBoxCmd->SetGuidance("Add a box.");
-	fAddBoxCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddBoxCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
 	// Grid Stuff
-	fAddGridMatCmd = new G4UIcmdWithAString("/DetSys/det/gridMat",this);
+	fAddGridMatCmd = new G4UIcmdWithAString("/DetSys/det/gridMat", this);
 	fAddGridMatCmd->SetGuidance("Set grid material.");
-	fAddGridMatCmd->SetParameterName("choice",false);
-	fAddGridMatCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddGridMatCmd->SetParameterName("choice", false);
+	fAddGridMatCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddGridSizeCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/gridSize",this);
+	fAddGridSizeCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/gridSize", this);
 	fAddGridSizeCmd->SetGuidance("Set grid size.");
 	fAddGridSizeCmd->SetUnitCategory("Length");
-	fAddGridSizeCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddGridSizeCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddGridDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/gridDimensions",this);
+	fAddGridDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/gridDimensions", this);
 	fAddGridDimensionsCmd->SetGuidance("Set grid dimensions.");
 	fAddGridDimensionsCmd->SetUnitCategory("Length");
-	fAddGridDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddGridDimensionsCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddGridColourCmd = new G4UIcmdWith3Vector("/DetSys/det/gridColour",this);
+	fAddGridColourCmd = new G4UIcmdWith3Vector("/DetSys/det/gridColour", this);
 	fAddGridColourCmd->SetGuidance("Set grid colour.");
-	fAddGridColourCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddGridColourCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddGridCmd = new G4UIcmdWithoutParameter("/DetSys/det/addGrid",this);
+	fAddGridCmd = new G4UIcmdWithoutParameter("/DetSys/det/addGrid", this);
 	fAddGridCmd->SetGuidance("Add a grid.");
-	fAddGridCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddGridCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddGridPosOffsetCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/gridPosOffset",this);
+	fAddGridPosOffsetCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/gridPosOffset", this);
 	fAddGridPosOffsetCmd->SetGuidance("Set grid offset.");
 	fAddGridPosOffsetCmd->SetUnitCategory("Length");
-	fAddGridPosOffsetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddGridPosOffsetCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddApparatusSpiceTargetChamberCmd = new G4UIcmdWithAString("/DetSys/app/addSpiceTargetChamber",this);
+	fAddApparatusSpiceTargetChamberCmd = new G4UIcmdWithAString("/DetSys/app/addSpiceTargetChamber", this);
 	fAddApparatusSpiceTargetChamberCmd->SetGuidance("Add SPICE target chamber.");
 	fAddApparatusSpiceTargetChamberCmd->AvailableForStates(G4State_Idle);
 
-	fAddApparatus8piVacuumChamberCmd = new G4UIcmdWithoutParameter("/DetSys/app/add8piVacuumChamber",this);
+	fAddApparatus8piVacuumChamberCmd = new G4UIcmdWithoutParameter("/DetSys/app/add8piVacuumChamber", this);
 	fAddApparatus8piVacuumChamberCmd->SetGuidance("Add 8pi vacuum chamber.");
 	fAddApparatus8piVacuumChamberCmd->AvailableForStates(G4State_Idle);
 
-	fAddApparatus8piVacuumChamberAuxMatShellCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/add8piVacuumChamberAuxMatShell",this);
+	fAddApparatus8piVacuumChamberAuxMatShellCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/add8piVacuumChamberAuxMatShell", this);
 	fAddApparatus8piVacuumChamberAuxMatShellCmd->SetGuidance("Add AuxMat shell around 8pi vacuum chamber");
-	fAddApparatus8piVacuumChamberAuxMatShellCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddApparatus8piVacuumChamberAuxMatShellCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddApparatusGriffinStructureCmd = new G4UIcmdWithAnInteger("/DetSys/app/addGriffinStructure",this);
+	fAddApparatusGriffinStructureCmd = new G4UIcmdWithAnInteger("/DetSys/app/addGriffinStructure", this);
 	fAddApparatusGriffinStructureCmd->SetGuidance("Add Griffin Structure");
-	fAddApparatusGriffinStructureCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddApparatusGriffinStructureCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fUpdateCmd = new G4UIcmdWithoutParameter("/DetSys/det/update",this);
+	fAddApparatusSourceHolderCmd = new G4UIcmdWithAnInteger("/DetSys/app/addSourceHolder", this);
+	fAddApparatusSourceHolderCmd->SetGuidance("Add PEEK source holder in position <n>");
+	fAddApparatusSourceHolderCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
+
+	fUpdateCmd = new G4UIcmdWithoutParameter("/DetSys/det/update", this);
 	fUpdateCmd->SetGuidance("Update geometry.");
 	fUpdateCmd->SetGuidance("This command MUST be applied before \"beamOn\" ");
 	fUpdateCmd->SetGuidance("if you changed geometrical value(s).");
 	fUpdateCmd->AvailableForStates(G4State_Idle);
 
-	fAddDetectionSystemGammaTrackingCmd = new G4UIcmdWithAnInteger("/DetSys/det/addGammaTracking",this);
+	fAddDetectionSystemGammaTrackingCmd = new G4UIcmdWithAnInteger("/DetSys/det/addGammaTracking", this);
 	fAddDetectionSystemGammaTrackingCmd->SetGuidance("Add Detection System GammaTracking");
-	fAddDetectionSystemGammaTrackingCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemGammaTrackingCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystemSodiumIodideCmd = new G4UIcmdWithAnInteger("/DetSys/det/addSodiumIodide",this);
+	fAddDetectionSystemSodiumIodideCmd = new G4UIcmdWithAnInteger("/DetSys/det/addSodiumIodide", this);
 	fAddDetectionSystemSodiumIodideCmd->SetGuidance("Add Detection System SodiumIodide");
-	fAddDetectionSystemSodiumIodideCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemSodiumIodideCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystemLanthanumBromideCmd = new G4UIcmdWith3Vector("/DetSys/det/addLanthanumBromide",this);
+	fAddDetectionSystemLanthanumBromideCmd = new G4UIcmdWith3Vector("/DetSys/det/addLanthanumBromide", this);
 	fAddDetectionSystemLanthanumBromideCmd->SetGuidance("Add Detection System LanthanumBromide - number of dets, radius in cm, empty");
-	fAddDetectionSystemLanthanumBromideCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemLanthanumBromideCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystemAncillaryBGOCmd = new G4UIcmdWith3Vector("/DetSys/det/addAncillaryBGO",this);
+	fAddDetectionSystemAncillaryBGOCmd = new G4UIcmdWith3Vector("/DetSys/det/addAncillaryBGO", this);
 	fAddDetectionSystemAncillaryBGOCmd->SetGuidance("Add Detection System AncillaryBGO - number of dets, radius in cm, hevimet yes(1) no(0)");
-	fAddDetectionSystemAncillaryBGOCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemAncillaryBGOCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystem8piCmd = new G4UIcmdWithAnInteger("/DetSys/det/add8pi",this);
+	fAddDetectionSystem8piCmd = new G4UIcmdWithAnInteger("/DetSys/det/add8pi", this);
 	fAddDetectionSystem8piCmd->SetGuidance("Add Detection System 8pi");
-	fAddDetectionSystem8piCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystem8piCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystem8piDetectorCmd = new G4UIcmdWithAnInteger("/DetSys/det/add8piDetector",this);
+	fAddDetectionSystem8piDetectorCmd = new G4UIcmdWithAnInteger("/DetSys/det/add8piDetector", this);
 	fAddDetectionSystem8piDetectorCmd->SetGuidance("Add 8pi Detector");
-	fAddDetectionSystem8piDetectorCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystem8piDetectorCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	fAddDetectionSystemDescantCmd = new G4UIcmdWithAnInteger("/DetSys/det/addDescant",this);
+	fAddDetectionSystemDescantCmd = new G4UIcmdWithAnInteger("/DetSys/det/addDescant", this);
 	fAddDetectionSystemDescantCmd->SetGuidance("Add Detection System DESCANT");
-	fAddDetectionSystemDescantCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemDescantCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	fAddDetectionSystemDescantAuxPortsCmd = new G4UIcmdWith3Vector("/DetSys/det/addDescantAuxPorts",this);
+	fAddDetectionSystemDescantAuxPortsCmd = new G4UIcmdWith3Vector("/DetSys/det/addDescantAuxPorts", this);
 	fAddDetectionSystemDescantAuxPortsCmd->SetGuidance("Add 8 DESCANT detectors in the auxillary LaBr3 detector locations");
 	fAddDetectionSystemDescantAuxPortsCmd->SetGuidance("/DetSys/det/addDescantAuxPorts _nDet_ _radialPos_ _leadShield_");
-	fAddDetectionSystemDescantAuxPortsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemDescantAuxPortsCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddApparatusDescantStructureCmd = new G4UIcmdWithoutParameter("/DetSys/det/addDescantStructure",this);
+	fAddApparatusDescantStructureCmd = new G4UIcmdWithoutParameter("/DetSys/det/addDescantStructure", this);
 	fAddApparatusDescantStructureCmd->SetGuidance("Add DESCANT structure");
-	fAddApparatusDescantStructureCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddApparatusDescantStructureCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystemTestcanCmd = new G4UIcmdWith3Vector("/DetSys/det/addTestcan",this);
+	fAddDetectionSystemTestcanCmd = new G4UIcmdWith3Vector("/DetSys/det/addTestcan", this);
 	fAddDetectionSystemTestcanCmd->SetGuidance("Add Testcan Detection System");
-	fAddDetectionSystemTestcanCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemTestcanCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
 	fSetDetectionSystemDescantColorCmd = new G4UIcmdWithAString("/DetSys/det/setDescantColor", this);
 	fSetDetectionSystemDescantColorCmd->SetGuidance("Set color of next descant detector to be added via addDescantCart or addDescantSpher");
-	fSetDetectionSystemDescantColorCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fSetDetectionSystemDescantColorCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 	fSetDetectionSystemDescantColorCmd->SetCandidates("white blue red green yellow");
 
 	fSetDetectionSystemDescantRotationCmd = new G4UIcmdWith3Vector("/DetSys/det/setDescantRotation", this);
 	fSetDetectionSystemDescantRotationCmd->SetGuidance("Set rotation of next descant detector to be added via addDescantCart or addDescantSpher (alhpa beta gamma)");
-	fSetDetectionSystemDescantRotationCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fSetDetectionSystemDescantRotationCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
 	fAddDetectionSystemDescantCartCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/addDescantCart", this);
 	fAddDetectionSystemDescantCartCmd->SetGuidance("Add single DESCANT detector at provided cartesian coordinates");
@@ -267,21 +271,21 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
 	fAddDetectionSystemDescantSpherCmd->SetGuidance("Add single DESCANT detector at provided spherical coordinates");
 	fAddDetectionSystemDescantSpherCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystemGriffinForwardCmd = new G4UIcmdWithAnInteger("/DetSys/det/addGriffinForward",this);
+	fAddDetectionSystemGriffinForwardCmd = new G4UIcmdWithAnInteger("/DetSys/det/addGriffinForward", this);
 	fAddDetectionSystemGriffinForwardCmd->SetGuidance("Add Detection System GriffinForward");
-	fAddDetectionSystemGriffinForwardCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemGriffinForwardCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystemGriffinForwardDetectorCmd = new G4UIcmdWithAnInteger("/DetSys/det/addGriffinForwardDetector",this);
+	fAddDetectionSystemGriffinForwardDetectorCmd = new G4UIcmdWithAnInteger("/DetSys/det/addGriffinForwardDetector", this);
 	fAddDetectionSystemGriffinForwardDetectorCmd->SetGuidance("Add GriffinForward Detector");
-	fAddDetectionSystemGriffinForwardDetectorCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemGriffinForwardDetectorCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystemGriffinBackCmd = new G4UIcmdWithAnInteger("/DetSys/det/addGriffinBack",this);
+	fAddDetectionSystemGriffinBackCmd = new G4UIcmdWithAnInteger("/DetSys/det/addGriffinBack", this);
 	fAddDetectionSystemGriffinBackCmd->SetGuidance("Add Detection System GriffinBack");
-	fAddDetectionSystemGriffinBackCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemGriffinBackCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystemGriffinBackDetectorCmd = new G4UIcmdWithAnInteger("/DetSys/det/addGriffinBackDetector",this);
+	fAddDetectionSystemGriffinBackDetectorCmd = new G4UIcmdWithAnInteger("/DetSys/det/addGriffinBackDetector", this);
 	fAddDetectionSystemGriffinBackDetectorCmd->SetGuidance("Add GriffinBack Detector");
-	fAddDetectionSystemGriffinBackDetectorCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemGriffinBackDetectorCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
 	fAddDetectionSystemGriffinCustomDetectorCmd = new G4UIcmdWithAnInteger("/DetSys/det/addGriffinCustomDetector", this);
 	fAddDetectionSystemGriffinCustomDetectorCmd->SetGuidance("Adds a detector using the paramaters specified");
@@ -317,51 +321,51 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
 	fAddDetectionSystemGriffinHevimetCmd->SetGuidance("Includes the Hevimet for a Griffin detector.");
 	fAddDetectionSystemGriffinHevimetCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystemSceptarCmd = new G4UIcmdWithAnInteger("/DetSys/det/addSceptar",this);
+	fAddDetectionSystemSceptarCmd = new G4UIcmdWithAnInteger("/DetSys/det/addSceptar", this);
 	fAddDetectionSystemSceptarCmd->SetGuidance("Add Detection System Sceptar");
-	fAddDetectionSystemSceptarCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemSceptarCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystemSpiceCmd = new G4UIcmdWithoutParameter("/DetSys/det/addSpiceDetector",this);
+	fAddDetectionSystemSpiceCmd = new G4UIcmdWithoutParameter("/DetSys/det/addSpiceDetector", this);
 	fAddDetectionSystemSpiceCmd->SetGuidance("Add Detection System Spice");
-	fAddDetectionSystemSpiceCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemSpiceCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystemTrificCmd = new G4UIcmdWithAString("/DetSys/det/addTrificDetector",this);
+	fAddDetectionSystemTrificCmd = new G4UIcmdWithAString("/DetSys/det/addTrificDetector", this);
 	fAddDetectionSystemTrificCmd->SetGuidance("Add Detection System Trific");
-	fAddDetectionSystemTrificCmd->AvailableForStates(G4State_PreInit,G4State_Idle);	
+	fAddDetectionSystemTrificCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fAddDetectionSystemPacesCmd = new G4UIcmdWithAnInteger("/DetSys/det/addPaces",this);
+	fAddDetectionSystemPacesCmd = new G4UIcmdWithAnInteger("/DetSys/det/addPaces", this);
 	fAddDetectionSystemPacesCmd->SetGuidance("Add Detection System Paces");
-	fAddDetectionSystemPacesCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fAddDetectionSystemPacesCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fUseTIGRESSPositionsCmd = new G4UIcmdWithABool("/DetSys/det/UseTIGRESSPositions",this);
+	fUseTIGRESSPositionsCmd = new G4UIcmdWithABool("/DetSys/det/UseTIGRESSPositions", this);
 	fUseTIGRESSPositionsCmd->SetGuidance("Use TIGRESS detector positions rather than GRIFFIN");
-	fUseTIGRESSPositionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-    
-	fTrifFlatCmd = new G4UIcmdWithABool("/DetSys/det/TrificFlatWindow",this);
-	fTrifFlatCmd->SetGuidance("Set the window to be flat for future trific instances");
-	fTrifFlatCmd->AvailableForStates(G4State_PreInit,G4State_Idle); 
+	fUseTIGRESSPositionsCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fTrifAluCmd = new G4UIcmdWithABool("/DetSys/det/TrificAluWindow",this);
+	fTrifFlatCmd = new G4UIcmdWithABool("/DetSys/det/TrificFlatWindow", this);
+	fTrifFlatCmd->SetGuidance("Set the window to be flat for future trific instances");
+	fTrifFlatCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
+
+	fTrifAluCmd = new G4UIcmdWithABool("/DetSys/det/TrificAluWindow", this);
 	fTrifAluCmd->SetGuidance("Set the window to be aluminsed for future trific instances");
-	fTrifAluCmd->AvailableForStates(G4State_PreInit,G4State_Idle); 
+	fTrifAluCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
 	fTrifWinCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/TrificWindowThickness", this);
 	fTrifWinCmd->SetGuidance("Set the window thickness for future trific instances");
-	fTrifWinCmd->AvailableForStates(G4State_PreInit, G4State_Idle);  
+	fTrifWinCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
 	fTrifDegCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/TrificDegraderThickness", this);
 	fTrifDegCmd->SetGuidance("Set the thickness of trific upstream degrader");
-	fTrifDegCmd->AvailableForStates(G4State_PreInit, G4State_Idle); 
+	fTrifDegCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-	fTrifDMatCmd = new G4UIcmdWithAString("/DetSys/det/TrificDegraderMaterial",this);
+	fTrifDMatCmd = new G4UIcmdWithAString("/DetSys/det/TrificDegraderMaterial", this);
 	fTrifDMatCmd->SetGuidance("Select material of trific upstream degrader.");
-	fTrifDMatCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	fTrifDMatCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorMessenger::~DetectorMessenger()
-{	
+{
 	delete fDetDir;
 	delete fAppDir;
 	delete fWorldDir;
@@ -398,7 +402,7 @@ DetectorMessenger::~DetectorMessenger()
 	delete fAddApparatus8piVacuumChamberCmd;
 	delete fAddApparatus8piVacuumChamberAuxMatShellCmd;
 	delete fAddApparatusGriffinStructureCmd;
-
+	delete fAddApparatusSourceHolderCmd;
 
 	delete fAddDetectionSystemSodiumIodideCmd;
 	delete fAddDetectionSystemLanthanumBromideCmd;
@@ -415,7 +419,7 @@ DetectorMessenger::~DetectorMessenger()
 	delete fAddDetectionSystemTestcanCmd;
 
 	delete fSetDetectionSystemDescantColorCmd;
-	delete fSetDetectionSystemDescantRotationCmd;	 
+	delete fSetDetectionSystemDescantRotationCmd;
 	delete fAddDetectionSystemDescantCartCmd;
 	delete fAddDetectionSystemDescantSpherCmd;
 
@@ -449,31 +453,39 @@ DetectorMessenger::~DetectorMessenger()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
+void DetectorMessenger::SetNewValue(G4UIcommand *command, G4String newValue)
 {
-	if(command == fWorldMaterialCmd) {
+	if (command == fWorldMaterialCmd)
+	{
 		fDetector->SetWorldMaterial(newValue);
 		return;
 	}
-	if(command == fWorldDimensionsCmd) {
+	if (command == fWorldDimensionsCmd)
+	{
 		fDetector->SetWorldDimensions(fWorldDimensionsCmd->GetNew3VectorValue(newValue));
 	}
-	if(command == fWorldVisCmd) {
+	if (command == fWorldVisCmd)
+	{
 		fDetector->SetWorldVis(fWorldVisCmd->GetNewBoolValue(newValue));
 	}
-	if(command == fUpdateCmd) {
+	if (command == fUpdateCmd)
+	{
 		fDetector->UpdateGeometry();
 	}
-	if(command == fWorldStepLimit) {
+	if (command == fWorldStepLimit)
+	{
 		fDetector->SetWorldStepLimit(fWorldStepLimit->GetNewDoubleValue(newValue));
 	}
-	if(command == fGenericTargetCmd) {
+	if (command == fGenericTargetCmd)
+	{
 		fDetector->SetGenericTargetMaterial(newValue);
 	}
-	if(command == fGenericTargetDimensionsCmd) {
+	if (command == fGenericTargetDimensionsCmd)
+	{
 		fDetector->SetGenericTargetDimensions(fGenericTargetDimensionsCmd->GetNew3VectorValue(newValue));
 	}
-	if(command == fGenericTargetPositionCmd) {
+	if (command == fGenericTargetPositionCmd)
+	{
 		fDetector->SetGenericTargetPosition(fGenericTargetPositionCmd->GetNew3VectorValue(newValue));
 	}
 	//  if(command == fFieldBoxMaterialCmd) {
@@ -503,49 +515,65 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	//  if(command == fAddBoxCmd) {
 	//    fDetector->AddBox();
 	//  }
-	if(command == fLayeredTargetAddCmd) {
+	if (command == fLayeredTargetAddCmd)
+	{
 		G4String Material;
 		G4double areal;
-		std::istringstream is(newValue);///string
-		is>>Material>>areal;
+		std::istringstream is(newValue); /// string
+		is >> Material >> areal;
 		fDetector->LayeredTargetAdd(Material, areal);
 	}
-	if(command == fTabMagneticFieldCmd) {
+	if (command == fTabMagneticFieldCmd)
+	{
 		G4String PathAndTableName;
 		G4double z_offset, z_rotation;
-		std::istringstream is(newValue);///string
-		is>>PathAndTableName>>z_offset>>z_rotation;
-		fDetector->SetTabMagneticField(PathAndTableName, z_offset, z_rotation); // z in mm, angle in degree  
+		std::istringstream is(newValue); /// string
+		is >> PathAndTableName >> z_offset >> z_rotation;
+		fDetector->SetTabMagneticField(PathAndTableName, z_offset, z_rotation); // z in mm, angle in degree
 	}
-	if(command == fAddGridMatCmd) {
+	if (command == fAddGridMatCmd)
+	{
 		fDetector->SetGridMat(newValue);
 	}
-	if(command == fAddGridSizeCmd) {
+	if (command == fAddGridSizeCmd)
+	{
 		fDetector->SetGridSize(fAddGridSizeCmd->GetNewDoubleValue(newValue));
 	}
-	if(command == fAddGridDimensionsCmd) {
+	if (command == fAddGridDimensionsCmd)
+	{
 		fDetector->SetGridDimensions(fAddGridDimensionsCmd->GetNew3VectorValue(newValue));
 	}
-	if(command == fAddGridColourCmd) {
+	if (command == fAddGridColourCmd)
+	{
 		fDetector->SetGridColour(fAddGridColourCmd->GetNew3VectorValue(newValue));
 	}
-	if(command == fAddGridPosOffsetCmd) {
+	if (command == fAddGridPosOffsetCmd)
+	{
 		fDetector->SetGridPosOffset(fAddGridPosOffsetCmd->GetNew3VectorValue(newValue));
 	}
-	if(command == fAddGridCmd) {
+	if (command == fAddGridCmd)
+	{
 		fDetector->AddGrid();
 	}
-	if(command == fAddApparatusSpiceTargetChamberCmd) {
+	if (command == fAddApparatusSpiceTargetChamberCmd)
+	{
 		fDetector->AddApparatusSpiceTargetChamber(newValue);
 	}
-	if(command == fAddApparatus8piVacuumChamberCmd) {
+	if (command == fAddApparatus8piVacuumChamberCmd)
+	{
 		fDetector->AddApparatus8piVacuumChamber();
 	}
-	if(command == fAddApparatus8piVacuumChamberAuxMatShellCmd) {
+	if (command == fAddApparatus8piVacuumChamberAuxMatShellCmd)
+	{
 		fDetector->AddApparatus8piVacuumChamberAuxMatShell(fAddApparatus8piVacuumChamberAuxMatShellCmd->GetNewDoubleValue(newValue));
 	}
-	if(command == fAddApparatusGriffinStructureCmd) {
+	if (command == fAddApparatusGriffinStructureCmd)
+	{
 		fDetector->AddApparatusGriffinStructure(fAddApparatusGriffinStructureCmd->GetNewIntValue(newValue));
+	}
+	if (command == fAddApparatusSourceHolderCmd)
+	{
+		fDetector->AddApparatusPEEKSourceHolder(fAddApparatusSourceHolderCmd->GetNewIntValue(newValue));
 	}
 	//  if(command == fAddDetectionSystemGammaTrackingCmd) {
 	//    fDetector->AddDetectionSystemGammaTracking(fAddDetectionSystemGammaTrackingCmd->GetNewIntValue(newValue));
@@ -553,119 +581,155 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	//  if(command == fAddDetectionSystemSodiumIodideCmd) {
 	//    fDetector->AddDetectionSystemSodiumIodide(fAddDetectionSystemSodiumIodideCmd->GetNewIntValue(newValue));
 	//  }
-	if(command == fAddDetectionSystemLanthanumBromideCmd) {
+	if (command == fAddDetectionSystemLanthanumBromideCmd)
+	{
 		fDetector->AddDetectionSystemLanthanumBromide(fAddDetectionSystemLanthanumBromideCmd->GetNew3VectorValue(newValue));
 	}
-	if(command == fAddDetectionSystemAncillaryBGOCmd) {
+	if (command == fAddDetectionSystemAncillaryBGOCmd)
+	{
 		fDetector->AddDetectionSystemAncillaryBGO(fAddDetectionSystemAncillaryBGOCmd->GetNew3VectorValue(newValue));
 	}
-	if(command == fAddDetectionSystem8piCmd) {
+	if (command == fAddDetectionSystem8piCmd)
+	{
 		fDetector->AddDetectionSystem8pi(fAddDetectionSystem8piCmd->GetNewIntValue(newValue));
 	}
-	if(command == fAddDetectionSystem8piDetectorCmd) {
+	if (command == fAddDetectionSystem8piDetectorCmd)
+	{
 		fDetector->AddDetectionSystem8piDetector(fAddDetectionSystem8piDetectorCmd->GetNewIntValue(newValue));
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if(command == fAddDetectionSystemDescantCmd) {
+	if (command == fAddDetectionSystemDescantCmd)
+	{
 		fDetector->AddDetectionSystemDescant(fAddDetectionSystemDescantCmd->GetNewIntValue(newValue));
 	}
-	if(command == fAddDetectionSystemDescantAuxPortsCmd)  {
+	if (command == fAddDetectionSystemDescantAuxPortsCmd)
+	{
 		fDetector->AddDetectionSystemDescantAuxPorts(fAddDetectionSystemDescantAuxPortsCmd->GetNew3VectorValue(newValue));
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if(command == fAddApparatusDescantStructureCmd) {
+	if (command == fAddApparatusDescantStructureCmd)
+	{
 		fDetector->AddApparatusDescantStructure();
 	}
 
-	if(command == fSetDetectionSystemDescantColorCmd) {
+	if (command == fSetDetectionSystemDescantColorCmd)
+	{
 		fDetector->SetDetectionSystemDescantColor(newValue);
 	}
-	if(command == fSetDetectionSystemDescantRotationCmd) {
+	if (command == fSetDetectionSystemDescantRotationCmd)
+	{
 		fDetector->SetDetectionSystemDescantRotation(fSetDetectionSystemDescantRotationCmd->GetNew3VectorValue(newValue));
 	}
-	if(command == fAddDetectionSystemDescantCartCmd) {
+	if (command == fAddDetectionSystemDescantCartCmd)
+	{
 		fDetector->AddDetectionSystemDescantCart(fAddDetectionSystemDescantCartCmd->GetNew3VectorValue(newValue));
 	}
-	if(command == fAddDetectionSystemDescantSpherCmd) {
+	if (command == fAddDetectionSystemDescantSpherCmd)
+	{
 		fDetector->AddDetectionSystemDescantSpher(fAddDetectionSystemDescantSpherCmd->GetNew3VectorRawValue(newValue), fAddDetectionSystemDescantSpherCmd->GetNewUnitValue(newValue));
 	}
-	if(command == fAddDetectionSystemTestcanCmd) { 
+	if (command == fAddDetectionSystemTestcanCmd)
+	{
 		fDetector->AddDetectionSystemTestcan(fAddDetectionSystemTestcanCmd->GetNew3VectorValue(newValue));
 	}
 
-	if(command == fAddDetectionSystemSceptarCmd) {
+	if (command == fAddDetectionSystemSceptarCmd)
+	{
 		fDetector->AddDetectionSystemSceptar(fAddDetectionSystemSceptarCmd->GetNewIntValue(newValue));
 	}
-	if(command == fAddDetectionSystemGriffinForwardCmd) {
+	if (command == fAddDetectionSystemGriffinForwardCmd)
+	{
 		fDetector->AddDetectionSystemGriffinForward(fAddDetectionSystemGriffinForwardCmd->GetNewIntValue(newValue));
 	}
-	if(command == fAddDetectionSystemGriffinForwardDetectorCmd) {
+	if (command == fAddDetectionSystemGriffinForwardDetectorCmd)
+	{
 		fDetector->AddDetectionSystemGriffinForwardDetector(fAddDetectionSystemGriffinForwardDetectorCmd->GetNewIntValue(newValue));
 	}
-	if(command == fAddDetectionSystemGriffinBackCmd) {
+	if (command == fAddDetectionSystemGriffinBackCmd)
+	{
 		fDetector->AddDetectionSystemGriffinBack(fAddDetectionSystemGriffinBackCmd->GetNewIntValue(newValue));
 	}
-	if(command == fAddDetectionSystemGriffinBackDetectorCmd) {
+	if (command == fAddDetectionSystemGriffinBackDetectorCmd)
+	{
 		fDetector->AddDetectionSystemGriffinBackDetector(fAddDetectionSystemGriffinBackDetectorCmd->GetNewIntValue(newValue));
 	}
 	//  if(command == fAddDetectionSystemGriffinPositionConfigCmd) {
 	//    fDetector->AddDetectionSystemGriffinPositionConfig(fAddDetectionSystemGriffinPositionConfigCmd->GetNew3VectorValue(newValue));
 	//	}
-	if(command == fAddDetectionSystemGriffinCustomDetectorCmd) {
+	if (command == fAddDetectionSystemGriffinCustomDetectorCmd)
+	{
 		fDetector->AddDetectionSystemGriffinCustomDetector(fAddDetectionSystemGriffinCustomDetectorCmd->GetNewIntValue(newValue));
 	}
-	if(command == fAddDetectionSystemGriffinCustomCmd) {
+	if (command == fAddDetectionSystemGriffinCustomCmd)
+	{
 		fDetector->AddDetectionSystemGriffinCustom(fAddDetectionSystemGriffinCustomCmd->GetNewIntValue(newValue));
 	}
-	if(command == fAddDetectionSystemGriffinHevimetCmd) {
+	if (command == fAddDetectionSystemGriffinHevimetCmd)
+	{
 		fDetector->AddDetectionSystemGriffinHevimet(fAddDetectionSystemGriffinHevimetCmd->GetNewIntValue(newValue));
 	}
-	if(command == fAddDetectionSystemGriffinShieldSelectCmd) {
+	if (command == fAddDetectionSystemGriffinShieldSelectCmd)
+	{
 		fDetector->AddDetectionSystemGriffinShieldSelect(fAddDetectionSystemGriffinShieldSelectCmd->GetNewIntValue(newValue));
 	}
-	if(command == fAddDetectionSystemGriffinSetRadialDistanceCmd) {
+	if (command == fAddDetectionSystemGriffinSetRadialDistanceCmd)
+	{
 		fDetector->AddDetectionSystemGriffinSetRadialDistance(fAddDetectionSystemGriffinSetRadialDistanceCmd->GetNewDoubleValue(newValue));
 	}
-	if(command == fAddDetectionSystemGriffinSetExtensionSuppLocationCmd) {
+	if (command == fAddDetectionSystemGriffinSetExtensionSuppLocationCmd)
+	{
 		fDetector->AddDetectionSystemGriffinSetExtensionSuppLocation(fAddDetectionSystemGriffinSetExtensionSuppLocationCmd->GetNewIntValue(newValue));
 	}
-	if(command == fAddDetectionSystemGriffinSetPositionCmd) {
+	if (command == fAddDetectionSystemGriffinSetPositionCmd)
+	{
 		fDetector->AddDetectionSystemGriffinSetPosition(fAddDetectionSystemGriffinSetPositionCmd->GetNew3VectorValue(newValue));
 	}
-	if(command == fAddDetectionSystemGriffinSetDeadLayerCmd) {
+	if (command == fAddDetectionSystemGriffinSetDeadLayerCmd)
+	{
 		fDetector->AddDetectionSystemGriffinSetDeadLayer(fAddDetectionSystemGriffinSetDeadLayerCmd->GetNew3VectorValue(newValue));
 	}
-	if(command == fAddDetectionSystemSpiceCmd) {
-		fDetector->AddDetectionSystemSpice(); 
+	if (command == fAddDetectionSystemSpiceCmd)
+	{
+		fDetector->AddDetectionSystemSpice();
 	}
-	if(command == fAddDetectionSystemTrificCmd) {
-		//Done as a string because Torr isnt a default unit 
+	if (command == fAddDetectionSystemTrificCmd)
+	{
+		// Done as a string because Torr isnt a default unit
 		G4double torr;
-		std::istringstream is(newValue);///string
-		is>>torr;
-		if(torr>1) fDetector->AddDetectionSystemTrific(torr);
-		else       fDetector->AddDetectionSystemTrific(760.0);
+		std::istringstream is(newValue); /// string
+		is >> torr;
+		if (torr > 1)
+			fDetector->AddDetectionSystemTrific(torr);
+		else
+			fDetector->AddDetectionSystemTrific(760.0);
 	}
-	if(command == fAddDetectionSystemPacesCmd) {
+	if (command == fAddDetectionSystemPacesCmd)
+	{
 		fDetector->AddDetectionSystemPaces(fAddDetectionSystemPacesCmd->GetNewIntValue(newValue));
 	}
-	if(command == fUseTIGRESSPositionsCmd) {
+	if (command == fUseTIGRESSPositionsCmd)
+	{
 		fDetector->UseTIGRESSPositions(fUseTIGRESSPositionsCmd->GetNewBoolValue(newValue));
 	}
-	if(command == fTrifWinCmd) {
-		fDetector->fTrifWindowThickness=fTrifWinCmd->GetNewDoubleValue(newValue);
+	if (command == fTrifWinCmd)
+	{
+		fDetector->fTrifWindowThickness = fTrifWinCmd->GetNewDoubleValue(newValue);
 	}
-	if(command == fTrifDegCmd) {
-		fDetector->fTrifDegraderThickness=fTrifDegCmd->GetNewDoubleValue(newValue);
-	}	
-	if(command == fTrifAluCmd) {
-		fDetector->fTrifAluminised=fTrifAluCmd->GetNewBoolValue(newValue);
+	if (command == fTrifDegCmd)
+	{
+		fDetector->fTrifDegraderThickness = fTrifDegCmd->GetNewDoubleValue(newValue);
 	}
-	if(command == fTrifDMatCmd) {
-		fDetector->fTrifDegraderMat=newValue;
+	if (command == fTrifAluCmd)
+	{
+		fDetector->fTrifAluminised = fTrifAluCmd->GetNewBoolValue(newValue);
 	}
-	if(command == fTrifFlatCmd) {
-		fDetector->fTrifFlatWindow=fTrifFlatCmd->GetNewBoolValue(newValue);
+	if (command == fTrifDMatCmd)
+	{
+		fDetector->fTrifDegraderMat = newValue;
+	}
+	if (command == fTrifFlatCmd)
+	{
+		fDetector->fTrifFlatWindow = fTrifFlatCmd->GetNewBoolValue(newValue);
 	}
 }
 

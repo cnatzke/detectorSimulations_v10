@@ -89,8 +89,10 @@ private:
     G4int fNumberOfSegments;
 
     G4Material *fPelletMaterial;
-    G4String fSphereMaterial;
+    G4Material *fSphereMaterial;
     G4Material *fSupportMaterial;
+    G4Material *fPeek;
+    G4Material *fDelrin;
 
     G4double fullPhi;
     G4double fullTheta;
