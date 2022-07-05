@@ -41,7 +41,7 @@
 #include "G4ThreeVector.hh"
 
 #include "G4Event.hh"
-#include "G4GeneralParticleSource.hh"
+#include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
@@ -60,7 +60,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(HistoManager *histoManager)
 	  fHistoManager(histoManager)
 {
 	G4int nParticle = 1;
-	fParticleGun = new G4GeneralParticleSource(nParticle); // In our code, the gun is called fParticleGun
+	fParticleGun = new G4ParticleGun(nParticle); // In our code, the gun is called fParticleGun
 	// create a messenger for this class
 	fGunMessenger = new PrimaryGeneratorMessenger(this);
 
@@ -80,6 +80,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(HistoManager *histoManager)
 	LaBrinit(); // sets up default variables - messy having them all declared here
 
 	fBeamSpotSigma = 0. * mm;
+	fSourceRadius = 0. * mm;
 
 	fTargetDistro = false;
 	fNeedFileDistro = false;
@@ -240,6 +241,15 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 		{
 			x = G4RandGauss::shoot(x, fBeamSpotSigma) * mm;
 			y = G4RandGauss::shoot(y, fBeamSpotSigma) * mm;
+		}
+
+		// If we want to simulate a source with finite radius
+		if (fSourceRadius > 0)
+		{
+			G4double randomPhi = CLHEP::twopi * G4UniformRand();
+			G4double randomR = fSourceRadius * G4UniformRand();
+			x = randomR * sin(randomPhi) * mm;
+			y = randomR * cos(randomPhi) * mm;
 		}
 
 		if (fTargetDistro)

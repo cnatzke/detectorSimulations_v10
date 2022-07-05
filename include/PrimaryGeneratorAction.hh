@@ -51,7 +51,7 @@
 #include "G4SystemOfUnits.hh"
 #pragma GCC diagnostic pop
 
-class G4GeneralParticleSource;
+class G4ParticleGun;
 class G4Event;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -59,7 +59,7 @@ class G4Event;
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
 private:
-    G4GeneralParticleSource *fParticleGun;    // pointer a to G4 class
+    G4ParticleGun *fParticleGun;              // pointer a to G4 class
     DetectorConstruction *fDetector;          // pointer to the geometry
     HistoManager *fHistoManager;              // pointer to the histo manager
     PrimaryGeneratorMessenger *fGunMessenger; // messenger of this class
@@ -109,6 +109,7 @@ public:
     }
     void SetConeMinAngle(G4double num1) { fAngleMinInit = num1; }
     void SetBeamSpotSigma(G4double num1) { fBeamSpotSigma = num1; }
+    void SetSourceRadius(G4double num1) { fSourceRadius = num1; }
     void PassTarget(G4double);
     void PrepareBeamFile(G4String);
     void SetLayeredTargetBeamDistro(G4int layer);
@@ -142,6 +143,7 @@ private:
     G4bool fConeAngleBool;
     G4double fAngleMinInit;
     G4double fBeamSpotSigma;
+    G4double fSourceRadius;
 
     G4bool fTargetDistro;
     G4double fLayerStart;
