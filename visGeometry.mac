@@ -26,22 +26,22 @@
 /DetSys/det/addGriffinCustomDetector 3
 /DetSys/det/SetCustomPosition 4 4 0
 /DetSys/det/addGriffinCustomDetector 4
-/DetSys/det/SetCustomPosition 5 5 0
-/DetSys/det/addGriffinCustomDetector 5
-/DetSys/det/SetCustomPosition 6 6 0
-/DetSys/det/addGriffinCustomDetector 6
-/DetSys/det/SetCustomPosition 7 7 0
-/DetSys/det/addGriffinCustomDetector 7
-/DetSys/det/SetCustomPosition 8 8 0
-/DetSys/det/addGriffinCustomDetector 8
-/DetSys/det/SetCustomPosition 9 9 0
-/DetSys/det/addGriffinCustomDetector 9
-/DetSys/det/SetCustomPosition 10 10 0
-/DetSys/det/addGriffinCustomDetector 10
-/DetSys/det/SetCustomPosition 11 11 0
-/DetSys/det/addGriffinCustomDetector 11
-/DetSys/det/SetCustomPosition 12 12 0
-/DetSys/det/addGriffinCustomDetector 12
+#/DetSys/det/SetCustomPosition 5 5 0
+#/DetSys/det/addGriffinCustomDetector 5
+#/DetSys/det/SetCustomPosition 6 6 0
+#/DetSys/det/addGriffinCustomDetector 6
+#/DetSys/det/SetCustomPosition 7 7 0
+#/DetSys/det/addGriffinCustomDetector 7
+#/DetSys/det/SetCustomPosition 8 8 0
+#/DetSys/det/addGriffinCustomDetector 8
+#/DetSys/det/SetCustomPosition 9 9 0
+#/DetSys/det/addGriffinCustomDetector 9
+#/DetSys/det/SetCustomPosition 10 10 0
+#/DetSys/det/addGriffinCustomDetector 10
+#/DetSys/det/SetCustomPosition 11 11 0
+#/DetSys/det/addGriffinCustomDetector 11
+#/DetSys/det/SetCustomPosition 12 12 0
+#/DetSys/det/addGriffinCustomDetector 12
 
 
 # adds source holder 
@@ -51,7 +51,7 @@
 # 0 = Single absorber @ position 0
 # 1 = All absorbers
 # 2 = Pos 1-11 absorbers
-/DetSys/app/addXRayAbsorbers 2
+#/DetSys/app/addXRayAbsorbers 2
 
 # Use this open statement to create a .wrl file suitable for
 # viewing in a VRML viewer:
@@ -79,7 +79,7 @@
 /vis/viewer/set/hiddenEdge 0
 #
 # Draw coordinate axes:
-#/vis/scene/add/axes 0 0 0 10 cm
+/vis/scene/add/axes 0 0 0 10 cm
 #
 # Draw smooth trajectories at end of event, showing trajectory points
 # as markers 2 pixels wide:

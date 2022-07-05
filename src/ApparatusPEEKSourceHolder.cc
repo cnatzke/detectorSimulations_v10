@@ -88,43 +88,6 @@ ApparatusPEEKSourceHolder::ApparatusPEEKSourceHolder() : // LogicalVolumes
     fSphereMaterial = "Peek";
     fSupportMaterial = "Delrin";
 
-    // Left over lengths from LaBr Detector file,
-    // leaving in because some are used for placing the source holder
-
-    fCrystalLengthZ = 2.0 * 2.54 * cm;
-    fCrystalOuterRadius = 1.0 * 2.54 * cm;
-
-    fPackingLengthZ = fCrystalLengthZ;
-    fPackingInnerRadius = fCrystalOuterRadius;
-    fPackingOuterRadius = 0.0625 * 2.54 * cm + fCrystalOuterRadius;
-
-    fPackingLidInnerRadius = 0.0 * cm;
-    fPackingLidOuterRadius = fPackingOuterRadius;
-    fPackingFrontLidThickness = 0.0625 * 2.54 * cm;
-
-    fDiscLidInnerRadius = 0.0 * cm;
-    fDiscLidOuterRadius = fPackingLidOuterRadius;
-    fDiscFrontLidThickness = 0.006 * 2.54 * cm;
-
-    fSealLidInnerRadius = 0.0 * cm;
-    fSealLidOuterRadius = fPackingLidOuterRadius;
-    fSealFrontLidThickness = 0.04 * 2.54 * cm;
-
-    fCanLengthZ = fCrystalLengthZ + fPackingFrontLidThickness + fDiscFrontLidThickness + fSealFrontLidThickness;
-    fCanInnerRadius = fPackingOuterRadius;
-    fCanOuterRadius = 0.019 * 2.54 * cm + fPackingOuterRadius;
-
-    fCanLidInnerRadius = 0.0 * cm;
-    fCanLidOuterRadius = fCanOuterRadius;
-    fCanFrontLidThickness = 0.019 * 2.54 * cm;
-    fCanBackLidThickness = 0.019 * 2.54 * cm;
-
-    fDetectorLengthZ = fCrystalLengthZ +
-                       fPackingFrontLidThickness +
-                       fDiscFrontLidThickness +
-                       fSealFrontLidThickness +
-                       fCanFrontLidThickness +
-                       fCanBackLidThickness;
     // G4double triangleThetaAngle = (180/M_PI)*(atan((1/sqrt(3))/sqrt((11/12) + (1/sqrt(2))) )+atan((sqrt(2))/(1+sqrt(2))))*deg;
     G4double triangleThetaAngle = 54.735610317245360 * deg;
 
@@ -198,10 +161,10 @@ G4int ApparatusPEEKSourceHolder::Build()
     // G4cout << "BuildPelletVolume" << G4endl;
     // BuildCeramicPelletVolume();
 
-    G4cout << "BuildSourceSphereVolume" << G4endl;
+    // G4cout << "BuildSourceSphereVolume" << G4endl;
     BuildSourceSphereVolume();
     // G4cout << "BuildSourceSupportVolume" << G4endl;
-    // BuildSourceSupportVolume();
+    BuildSourceSupportVolume();
 
     return 1;
 }

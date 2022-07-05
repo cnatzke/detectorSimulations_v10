@@ -51,16 +51,12 @@ public:
 
     G4int Build(); // G4SDManager* mySDman);
     G4int Place(G4LogicalVolume *expHallLog, G4int detectorNumber);
-    G4double GetDetectorLengthOfUnitsCM() { return fDetectorLengthZ; };
-    G4double GetCrystalRadius() { return fCrystalOuterRadius; };
-    G4double GetCrystalLength() { return fCrystalLengthZ; };
     G4double GetR();
     G4double GetTheta(G4int i);
     G4double GetPhi(G4int i);
     G4double GetYaw(G4int i);
     G4double GetPitch(G4int i);
     G4double GetRoll(G4int i);
-    G4double GetCrystalRadialPosition() { return fPackingFrontLidThickness + fDiscFrontLidThickness + fSealFrontLidThickness + fCanFrontLidThickness + 12.5 * cm; };
 
 private:
     // Material Manager
@@ -110,34 +106,7 @@ private:
     G4double fSmallCyclinderInnerRadius;
     G4double fSmallCyclinderOuterRadius;
 
-    G4double fDetailViewEndAngle;
-    G4double fCrystalLengthZ;
-    G4double fCrystalInnerRadius;
-    G4double fCrystalOuterRadius;
-    G4double fPackingLengthZ;
-    G4double fPackingInnerRadius;
-    G4double fPackingOuterRadius;
-    G4double fPackingLidInnerRadius;
-    G4double fPackingLidOuterRadius;
-    G4double fPackingFrontLidThickness;
-    G4double fDiscLidInnerRadius;
-    G4double fDiscLidOuterRadius;
-    G4double fDiscFrontLidThickness;
-    G4double fSealLidInnerRadius;
-    G4double fSealLidOuterRadius;
-    G4double fSealFrontLidThickness;
-    G4double fCanLengthZ;
-    G4double fCanInnerRadius;
-    G4double fCanOuterRadius;
-    G4double fCanLidInnerRadius;
-    G4double fCanLidOuterRadius;
-    G4double fCanFrontLidThickness;
-    G4double fCanBackLidThickness;
-
-    G4double fDetectorLengthZ;
     G4double fDetectorAngles[8][5];
-
-    G4double fSetRadialPos;
 
     G4Tubs *BuildCeramicPellet();
     G4Sphere *BuildSourceSphere();
