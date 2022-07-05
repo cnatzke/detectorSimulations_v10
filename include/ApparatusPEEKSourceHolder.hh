@@ -88,11 +88,10 @@ private:
     G4int fNumberOfDetectors;
     G4int fNumberOfSegments;
 
+    G4String fSphereMaterial;
+    G4String fSupportMaterial;
+
     G4Material *fPelletMaterial;
-    G4Material *fSphereMaterial;
-    G4Material *fSupportMaterial;
-    G4Material *fPeek;
-    G4Material *fDelrin;
 
     G4double fullPhi;
     G4double fullTheta;

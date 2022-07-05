@@ -42,11 +42,11 @@ ApparatusPEEKSourceHolder::ApparatusPEEKSourceHolder() : // LogicalVolumes
     nistMan = G4NistManager::Instance();
     nistMan->SetVerbose(0);
 
+    /*
     G4double density;
     std::vector<G4int> natoms;
     std::vector<G4String> elements;
 
-    /*
     // Defining new material (Tungsten Carbide) for pellet
     elements.push_back("W");    natoms.push_back(1);
     elements.push_back("C");    natoms.push_back(1);
@@ -57,26 +57,6 @@ ApparatusPEEKSourceHolder::ApparatusPEEKSourceHolder() : // LogicalVolumes
     elements.clear();
     natoms.clear();
     */
-
-    //--------------------------------------------------
-    // Defining Peek for sphere
-    // chemical formula and density from wikipedia (https://en.wikipedia.org/wiki/Polyether_ether_ketone)
-    //--------------------------------------------------
-    elements.push_back("C");
-    natoms.push_back(19);
-    elements.push_back("H");
-    natoms.push_back(14);
-    elements.push_back("O");
-    natoms.push_back(3);
-
-    density = 1.32 * g / cm3;
-    fPeek = nistMan->ConstructNewMaterial("Peek", elements, natoms, density);
-
-    elements.clear();
-    natoms.clear();
-
-    // defining Source plastic for support structure
-    fDelrin = nistMan->FindOrBuildMaterial("G4_POLYOXYMETHYLENE");
 
     /////////////////////////////////////////////////////////////////////
     // Defining physical parameters for geometries
@@ -105,8 +85,8 @@ ApparatusPEEKSourceHolder::ApparatusPEEKSourceHolder() : // LogicalVolumes
     fSmallCyclinderOuterRadius = 0.315 * 2.54 * cm;
 
     // fPelletMaterial = WC;
-    fSphereMaterial = fPeek;
-    fSupportMaterial = fDelrin;
+    fSphereMaterial = "Peek";
+    fSupportMaterial = "Delrin";
 
     // Left over lengths from LaBr Detector file,
     // leaving in because some are used for placing the source holder
@@ -295,9 +275,11 @@ G4int ApparatusPEEKSourceHolder::BuildCeramicPelletVolume()
 
 G4int ApparatusPEEKSourceHolder::BuildSourceSphereVolume()
 {
-    if (!fSphereMaterial)
+    G4Material *sphereMaterial = G4Material::GetMaterial(fSphereMaterial);
+
+    if (!sphereMaterial)
     {
-        G4cout << " ----> Material " << fSphereMaterial << " not found, cannot build the source holder sphere! " << G4endl;
+        G4cout << " ----> Material " << sphereMaterial << " not found, cannot build the source holder sphere! " << G4endl;
         return 0;
     }
 
@@ -317,7 +299,8 @@ G4int ApparatusPEEKSourceHolder::BuildSourceSphereVolume()
     sourceSphere = BuildSourceSphere();
     cyc = BuildCeramicPellet();
 
-    G4ThreeVector fTrans(0., 0., 0.051 * 2.54 * cm);
+    // G4ThreeVector fTrans(0., 0., 0.051 * 2.54 * cm);
+    G4ThreeVector fTrans(0., 0., 0.);
 
     // logical volume
     if (fSourceSphereLog == NULL)
@@ -328,7 +311,7 @@ G4int ApparatusPEEKSourceHolder::BuildSourceSphereVolume()
         // fSourceSphereLog = new G4LogicalVolume(delSphere, material, "SourceSphereLog", 0, 0, 0);
 
         // Second source (post July 2019) without ceramic backing
-        fSourceSphereLog = new G4LogicalVolume(sourceSphere, fSphereMaterial, "SourceSphereLog", 0, 0, 0);
+        fSourceSphereLog = new G4LogicalVolume(sourceSphere, sphereMaterial, "SourceSphereLog", 0, 0, 0);
         fSourceSphereLog->SetVisAttributes(visAtt);
     }
 
@@ -344,7 +327,7 @@ G4int ApparatusPEEKSourceHolder::BuildSourceSphereVolume()
 
 G4int ApparatusPEEKSourceHolder::BuildSourceSupportVolume()
 {
-    G4Material *material = fSupportMaterial;
+    G4Material *material = G4Material::GetMaterial(fSupportMaterial);
     if (!material)
     {
         G4cout << " ----> Material " << fSupportMaterial << " not found, cannot build the Source Support Structure! " << G4endl;
