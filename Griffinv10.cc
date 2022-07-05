@@ -59,43 +59,44 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
 	// Choose the Random engine
 	G4Random::setTheEngine(new CLHEP::RanecuEngine);
 	// Calculate seed from the product of PID, hostname hash, and time
 	pid_t pid = getpid();
 
-	char* hostname = new char[1024];
+	char *hostname = new char[1024];
 	gethostname(hostname, 1024);
 	hostname[1023] = '\0';
 	size_t hostnamehash = std::hash<std::string>{}(hostname);
 
 	size_t time = std::time(nullptr);
 
-	size_t seed = time*pid*hostnamehash;
+	size_t seed = time * pid * hostnamehash;
 
 	G4Random::setTheSeed(seed);
 
 	// Construct the default run manager
 #ifdef G4MULTITHREADED
 	G4int nThreads = 2;
-	if(argc == 3) {
+	if (argc == 3)
+	{
 		nThreads = strtol(argv[2], nullptr, 10);
 	}
-	G4cout<<"RUNNING MULTITHREADED WITH "<<nThreads<<" THREADS"<<G4endl;
-	G4MTRunManager* runManager = new G4MTRunManager;
+	G4cout << "RUNNING MULTITHREADED WITH " << nThreads << " THREADS" << G4endl;
+	G4MTRunManager *runManager = new G4MTRunManager;
 	runManager->SetNumberOfThreads(nThreads);
 #else
-	G4cout<<"NOT RUNNING MULTITHREADED"<<G4endl;
-	G4RunManager* runManager = new G4RunManager;
+	G4cout << "NOT RUNNING MULTITHREADED" << G4endl;
+	G4RunManager *runManager = new G4RunManager;
 #endif
 
 	// turn off messages from particle HP manager (/process/had/particle_hp/verbose command does not work?)
 	G4ParticleHPManager::GetInstance()->SetVerboseLevel(0);
 
 	// Set mandatory initialization classes
-	DetectorConstruction* detector = new DetectorConstruction;
+	DetectorConstruction *detector = new DetectorConstruction;
 	runManager->SetUserInitialization(detector);
 	runManager->SetUserInitialization(new PhysicsList);
 	runManager->SetUserInitialization(new ActionInitialization(detector));
@@ -103,17 +104,20 @@ int main(int argc, char** argv)
 	// We don't initialize the G4 kernel at run time so the physics list can be changed!
 
 	// Get the pointer to the User Interface manager
-	G4UImanager* UImanager = G4UImanager::GetUIpointer();
+	G4UImanager *UImanager = G4UImanager::GetUIpointer();
 
-	G4VisManager* visManager = new G4VisExecutive;
+	G4VisManager *visManager = new G4VisExecutive;
 	visManager->Initialize();
 
-	if(argc != 1) { // batch mode
+	if (argc != 1)
+	{ // batch mode
 		G4String command = "/control/execute ";
 		G4String fileName = argv[1];
-		UImanager->ApplyCommand(command+fileName);
-	} else { // interactive mode : define visualization and UI terminal
-		G4UIExecutive* ui = new G4UIExecutive(argc, argv);
+		UImanager->ApplyCommand(command + fileName);
+	}
+	else
+	{ // interactive mode : define visualization and UI terminal
+		G4UIExecutive *ui = new G4UIExecutive(argc, argv);
 		UImanager->ApplyCommand("/control/execute vis.mac");
 
 		ui->SessionStart();
@@ -124,7 +128,7 @@ int main(int argc, char** argv)
 	delete visManager;
 
 	// Job termination
-	delete runManager;
+	// delete runManager;
 
 	return 0;
 }
