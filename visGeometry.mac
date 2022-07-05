@@ -44,7 +44,7 @@
 #/DetSys/det/addGriffinCustomDetector 12
 
 
-# adds source holder 
+# adds PEEK source holder 
 /DetSys/app/addSourceHolder 2
 
 # adds TaSnCu X-Ray absorbers
