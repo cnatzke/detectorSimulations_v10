@@ -65,9 +65,9 @@ ApparatusPEEKSourceHolder::ApparatusPEEKSourceHolder() : // LogicalVolumes
     fullPhi = 360.0 * deg;
     fullTheta = 180.0 * deg;
 
-    // fPelletLength = .292 * 2.54 * cm;
-    // fPelletInnerRadius = 0. * cm;
-    // fPelletOuterRadius = .25 * 2.54 * cm;
+    fPelletLength = .292 * 2.54 * cm;
+    fPelletInnerRadius = 0. * cm;
+    fPelletOuterRadius = .25 * 2.54 * cm;
 
     fSphereInnerRadius = 0. * cm;
     fSphereOuterRadius = .75 * 2.54 * cm;
