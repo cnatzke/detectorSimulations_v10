@@ -247,7 +247,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 		if (fSourceRadius > 0)
 		{
 			G4double randomPhi = CLHEP::twopi * G4UniformRand();
-			G4double randomR = fSourceRadius * G4UniformRand();
+			G4double randomR = fSourceRadius * pow(G4UniformRand(), 0.5);
 			x = randomR * sin(randomPhi) * mm;
 			y = randomR * cos(randomPhi) * mm;
 		}
