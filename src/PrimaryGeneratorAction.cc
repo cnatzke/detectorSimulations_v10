@@ -247,6 +247,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 		if (fSourceRadius > 0)
 		{
 			G4double randomPhi = CLHEP::twopi * G4UniformRand();
+			// square root of random number b/c r^2 dependence?
+			// Otherwise there would be a statistical bias in the amount of points near the center vs. far from the center.
 			G4double randomR = fSourceRadius * pow(G4UniformRand(), 0.5);
 			x = randomR * sin(randomPhi) * mm;
 			y = randomR * cos(randomPhi) * mm;
