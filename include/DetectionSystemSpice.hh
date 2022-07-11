@@ -53,23 +53,16 @@ public:
 	// logical and physical volumes
 	//------------------------------------------------//
 public:
-	G4int Build();
-	G4int PlaceDetector(G4LogicalVolume* ExpHallLog, G4int nRings);
-	G4int PlaceGuardRing(G4LogicalVolume* ExpHallLog);
-	void PlaceDetectorMount(G4LogicalVolume* ExpHallLog); 
-	void PlaceAnnularClamps(G4LogicalVolume* ExpHallLog);
+	G4int BuildPlace(G4LogicalVolume* ExpHallLog);
+
 
 private:
-	G4AssemblyVolume* fAssembly;
-	G4AssemblyVolume* fAssemblySiRing[10];
 
-	G4ThreeVector GetDirectionXYZ(G4double theta, G4double phi);
+// 	G4ThreeVector GetDirectionXYZ(G4double theta, G4double phi);
 
 	G4LogicalVolume* fDetectorMountLog;
-	G4LogicalVolume* fAnnularClampLog;  
-	G4LogicalVolume* fSiInnerGuardRingLog;
-	G4LogicalVolume* fSiOuterGuardRingLog;
-	G4LogicalVolume* fSiDetSpiceRingLog[10];
+	G4LogicalVolume* fAnnularClampLog;
+	std::vector<G4LogicalVolume*> fSiliLog;
 
 	G4VPhysicalVolume* fDetectorMountPhys;
 	G4VPhysicalVolume* fAnnularClampPhys;
@@ -116,8 +109,11 @@ private:
 	G4double 	fSiDetCrystalThickness;
 	G4double 	fSiDetCrystalOuterDiameter;
 	G4double 	fSiDetCrystalInnerDiameter;
-	G4double 	fSiDetRadialSegments;
-	G4double 	fSiDetPhiSegments;
+	G4double 	fSiDetCrystalActiveInnerDiameter;
+	G4double 	fSiDetCrystalActiveOuterDiameter;
+	G4double 	fSiDetRingRadii;
+	G4int 		fSiDetRadialSegments;
+	G4int 		fSiDetPhiSegments;
 
 	//-------------------------------//
 	// parameters for the guard ring //
@@ -125,17 +121,16 @@ private:
 	G4double 	fSiDetGuardRingInnerDiameter;
 	G4double 	fSiDetGuardRingOuterDiameter;
 
+	
 	//------------------------------------------------//
 	// internal methods in Build()
 	//------------------------------------------------//
 private:
-	G4int 	BuildSiliconWafer(G4int ringID);
-	G4int 	BuildInnerGuardRing();
-	G4int 	BuildOuterGuardRing();
+	G4int 	BuildPlaceSiliconWafer(G4LogicalVolume* ExpHallLog);
 	void 	BuildDetectorMount();
 	void 	BuildAnnularClamps();   
-
-	G4Tubs*	BuildCrystal(G4int myRingID);
+	void PlaceDetectorMount(G4LogicalVolume* ExpHallLog); 
+	void PlaceAnnularClamps(G4LogicalVolume* ExpHallLog);
 };
 
 #endif

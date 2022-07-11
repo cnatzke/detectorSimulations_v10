@@ -50,26 +50,33 @@ ActionInitialization::~ActionInitialization()
 
 void ActionInitialization::BuildForMaster() const
 {
-    // Actions
-    SetUserAction(new RunAction());
+	// Actions
+	// the master only need a HistoManager to handle histograms, so we pass a null
+	// pointer instead of a pointer to a HistoManager unless we use require histograms
+	// That was the idea, but at this point we havent clarified if we want histograms 
+    // so we can't do this!!!
+	auto histManager = new HistoManager(fDetector);
+	SetUserAction(new RunAction(histManager));
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void ActionInitialization::Build() const
 {
-    // Actions
-    //
-    SetUserAction(new PrimaryGeneratorAction(fDetector));
+	// Actions
+	//
+	auto histManager = new HistoManager(fDetector);
 
-    RunAction* runAction = new RunAction();
-    SetUserAction(runAction);
+	SetUserAction(new PrimaryGeneratorAction(histManager));
 
-    EventAction* eventAction = new EventAction(runAction);
-    SetUserAction(eventAction);
+	RunAction* runAction = new RunAction(histManager);
+	SetUserAction(runAction);
 
-    SteppingAction* steppingAction = new SteppingAction(fDetector, eventAction);
-    SetUserAction(steppingAction);
+	EventAction* eventAction = new EventAction(runAction, histManager);
+	SetUserAction(eventAction);
+
+	SteppingAction* steppingAction = new SteppingAction(fDetector, eventAction);
+	SetUserAction(steppingAction);
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
