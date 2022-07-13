@@ -77,6 +77,8 @@ int main(int argc, char **argv)
 
 	G4Random::setTheSeed(seed);
 
+    G4cout << "Seed: " << seed << G4endl;
+
 	// Construct the default run manager
 #ifdef G4MULTITHREADED
 	G4int nThreads = 2;
